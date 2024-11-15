@@ -16,7 +16,7 @@ import numpy as np
 # -----------------------------------------------
 
 def compute_output_size_1d(input_array, kernel_array):
-    pass
+    return len(input_array) - len(kernel_array) + 1
 
 
 # -----------------------------------------------
@@ -33,11 +33,18 @@ print(compute_output_size_1d(input_array, kernel_array))
 
 # Your code here:
 # -----------------------------------------------
-
 def convolve_1d(input_array, kernel_array):
     # Tip: start by initializing an empty output array (you can use your function above to calculate the correct size).
     # Then fill the cells in the array with a loop.
-    pass
+    length = compute_output_size_1d(input_array, kernel_array)
+    convo = [0] * length
+    for x in range(len(convo)):
+      convo[x] = np.sum(input_array[x:x + length] * kernel_array)
+    return convo
+
+
+#output_ji=        np.sum(x[:,:][j:j+fl,i:i+fl]*w0[:,:])
+#output_array[i] = np.sum(input_array[i:i + kernel_length] * kernel_array)
 
 # -----------------------------------------------
 # Another tip: write test cases like this, so you can easily test your function.
@@ -54,10 +61,10 @@ print(convolve_1d(input_array, kernel_array))
 
 # Your code here:
 # -----------------------------------------------
-
 def compute_output_size_2d(input_matrix, kernel_matrix):
-    pass
-
+    output_height = input_matrix.shape[0] - kernel_matrix.shape[0] + 1
+    output_width = input_matrix.shape[1] - kernel_matrix.shape[1] + 1
+    return (output_height, output_width)
 
 # -----------------------------------------------
 
@@ -72,7 +79,15 @@ def compute_output_size_2d(input_matrix, kernel_matrix):
 def convolute_2d(input_matrix, kernel_matrix):
     # Tip: same tips as above, but you might need a nested loop here in order to
     # define which parts of the input matrix need to be multiplied with the kernel matrix.
-    pass
+    output_height, output_width = compute_output_size_2d(input_matrix, kernel_matrix)
+    kernel_height, kernel_width = kernel_matrix.shape
+    
+    convo = np.zeros((output_height, output_width))
+    
+    for i in range(output_height):
+      for j in range(output_width):
+        convo[i,j] = np.sum(input_matrix[i:i + kernel_height, j:j + kernel_width] * kernel_matrix)
+    return convo
 
 
 # -----------------------------------------------
